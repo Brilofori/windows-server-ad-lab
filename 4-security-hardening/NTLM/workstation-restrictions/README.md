@@ -8,38 +8,38 @@ Policies applied to standard staff accounts to reduce access to administrative t
 
 Included controls:
 
-Disable Command Prompt
+-Disable Command Prompt
 
-Disable PowerShell
+-Disable PowerShell
 
-Disable Registry Editor
+-Disable Registry Editor
 
-Disable Control Panel
+-Disable Control Panel
 
-Disable Task Manager
+-Disable Task Manager
 
-Intern Restrictions
+-Intern Restrictions
 
 More restrictive policies designed for low-privilege intern accounts.
 
 Included controls:
 
-Disable command-line tools (CMD, PowerShell)
+-Disable command-line tools (CMD, PowerShell)
 
-Disable registry access
+-Disable registry access
 
-Block Control Panel and Task Manager
+-Block Control Panel and Task Manager
 
-Block File Explorer context menu
+-Block File Explorer context menu
 
-Remove “Run” menu
+-Remove “Run” menu
 
-Disable web search in Start Menu
+-Disable web search in Start Menu
 
-Prevent access to drives
+-Prevent access to drives
 
-Disable Windows Store and notification area
+-Disable Windows Store and notification area
 
-Restrict LAN and network browsing
+-Restrict LAN and network browsing
 
 Each screenshot corresponds to an applied GPO setting and serves as evidence of configuration.

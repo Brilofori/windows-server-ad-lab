@@ -24,4 +24,5 @@ Only essential services are granted allow rules (e.g., DHCP, DNS).
 Everything else remains blocked by design.
 
 Purpose
+
 These rules enforce a least-privilege network posture by allowing only the minimum required communication. This significantly reduces exposure to network-based attacks and aligns with enterprise workstation security practices.

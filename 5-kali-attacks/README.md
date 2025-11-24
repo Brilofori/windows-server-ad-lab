@@ -19,13 +19,12 @@ Tools used: smbclient, enum4linux-ng, crackmapexec
 
 Purpose: Determine whether anonymous users can enumerate SMB shares, domain information, or NetBIOS data.
 
-Summary of results:
+Summary:
 - Anonymous SMB listing returns “NT_STATUS_IO_TIMEOUT”
 - enum4linux fails to connect to LDAP (389/636) and SMB (139/445)
-- CrackMapExec initialization completes but further enumeration returns no output
+- CrackMapExec initialization completes but enumeration returns no output
 
-Conclusion:
-SMB, LDAP, and NetBIOS enumeration are disabled by firewall rules and guest/anonymous access hardening.
+Conclusion: SMB, LDAP, and NetBIOS enumeration are disabled by firewall rules and guest/anonymous access hardening.
 
 ---
 
@@ -34,118 +33,122 @@ Tools used: crackmapexec
 
 Purpose: Test whether a single user with a blank password or incorrect password is accepted.
 
-Summary of results:
-- Null username/password combination rejected
-- Incorrect password for a valid domain user rejected
+Summary:
+- Null username/password rejected
+- Incorrect password rejected
 
-Conclusion:
-Account lockout, password policies, and NTLM restrictions prevent unauthorized single-user authentication attempts.
+Conclusion: Password policy, lockout settings, and NTLM restrictions prevent unauthorized authentication.
 
 ---
 
 ## Attack 3 — Username Enumeration Using Userlists (Denied)
-Tools used: crackmapexec with -u userlist.txt
+Tools used: crackmapexec with userlist.txt
 
-Purpose: Identify valid domain users based on SMB response differences.
+Purpose: Identify valid domain users using SMB response analysis.
 
-Summary of results:
-- Both null-password and wrong-password sprays return identical generic failure messages
-- No distinction is made between valid and invalid usernames
+Summary:
+- Null-password and wrong-password sprays return identical errors
+- No distinction between valid and invalid usernames
 
-Conclusion:
-Username enumeration resistance is properly configured.  
-NTLM auditing and SMB hardening prevent user validation through timing or error responses.
+Conclusion: Username enumeration resistance is effective.
 
 ---
 
 ## Attack 4 — Password Spray Attempts (Denied)
 Tools used: crackmapexec
 
-Purpose: Attempt common passwords across all usernames to identify weak credentials.
+Purpose: Attempt common passwords across all usernames.
 
-Summary of results:
-- Password spraying using “Password123” and “Winter2024” failed
-- Single-user spraying also produced uniform failure messages
+Summary:
+- Password123 and Winter2024 failed across all users
+- Single-user password spray also failed
 
-Conclusion:
-Password policy, lockout policy, and Kerberos pre-authentication prevent password spray success.
+Conclusion: Password hardening and Kerberos pre-authentication prevent password spraying.
 
 ---
 
 ## Attack 5 — Fake Hash and Kerberos Ticket Abuse Attempts (Denied)
-Tools used: crackmapexec with -H and -k
+Tools used: crackmapexec (-H, -k)
 
-Purpose: Test whether pass-the-hash, pass-the-ticket, or invalid Kerberos tickets can be used.
+Purpose: Test pass-the-hash, pass-the-ticket, and fake Kerberos tickets.
 
-Summary of results:
-- Fake NTLM hash authentication failed
-- Fake Kerberos TGT attempt failed
-- No usable authentication material was accepted
+Summary:
+- Fake NTLM hash rejected
+- Fake Kerberos TGT rejected
 
-Conclusion:
-NTLMv1 is disabled, NTLM fallback is blocked, and Kerberos ticket integrity checks are enforced.
+Conclusion: NTLMv1 is disabled, NTLM fallback is blocked, and Kerberos ticket integrity is enforced.
 
 ---
 
 ## Attack 6 — Kerberos Service Ticket and SPN Abuse Attempts (Denied)
 Tools used: Impacket (GetUserSPNs.py, getTGT.py)
 
-Purpose: Attempt Kerberoasting, AS-REP roasting, and TGT abuse.
+Purpose: Attempt Kerberoasting, AS-REP roasting, and ticket impersonation.
 
-Summary of results:
-- SPN enumeration with blank credentials failed
-- TGT request returned “Errno 111 Connection refused”
-- Port 88 connectivity tests confirm firewall blocking
-- Responder traffic and poisoning attempts were blocked
+Summary:
+- SPN enumeration failed
+- TGT request returns Errno 111 (connection refused)
+- Firewall blocks port 88
 
-Conclusion:
-Kerberos exposure is minimized, port 88 is firewalled, and SPN enumeration is restricted.
+Conclusion: Kerberos exposure is minimized and SPN enumeration is restricted.
 
 ---
 
 ## Attack 7 — LLMNR/NBT-NS Poisoning Attempt (Denied)
-Tools used: dig AXFR, DNS zone transfer attempts
+Tools used: dig AXFR, DNS spoofing attempts
 
-Purpose: Attempt DNS zone transfer and poisoning attacks related to multicast/LLMNR/NBT-NS.
+Purpose: Attempt DNS zone transfer and multicast poisoning.
 
-Summary of results:
-- DNS AXFR attempt failed with timeout
-- No servers responded on TCP/UDP 53 for transfer
-- Multicast DNS lookups produced no responses
+Summary:
+- DNS AXFR attempt timed out
+- No responses on TCP/UDP port 53
+- No multicast responses
 
-Conclusion:
-DNS zone transfers are disabled, LLMNR/NBT-NS are restricted, and firewall rules prevent poisoning.
+Conclusion: DNS zone transfers disabled, LLMNR/NBT-NS restricted.
 
 ---
 
 ## Attack 8 — LDAP and LDAPS Enumeration Attempts (Denied)
-Tools used: ldapsearch over LDAP (389) and LDAPS (636)
+Tools used: ldapsearch over 389 and 636
 
-Purpose: Determine whether LDAP directory objects can be queried anonymously.
+Purpose: Determine LDAP directory exposure.
 
-Summary of results:
-- LDAP search returned connection timeout
-- LDAPS also returned timeout
-- No directory information was exposed
+Summary:
+- LDAP and LDAPS both time out
+- No directory information returned
 
-Conclusion:
-LDAP anonymous binds are disabled, LDAPS is restricted, and both ports are firewalled from external hosts.
+Conclusion: LDAP anonymous binds disabled and ports firewalled.
+
+---
+
+## Attack 9 — SMB Share Permission Abuse Attempts (Denied)
+Tools used: smbclient, crackmapexec smb
+
+Purpose: Attempt connecting to administrative or hidden SMB shares using anonymous or invalid credentials.
+
+Summary:
+- Attempts to access C$, ADMIN$, IPC$ return access denied or timeout
+- No share listing available to unauthenticated users
+- No guest access permitted
+
+Conclusion: Administrative shares are correctly restricted and not exposed to attackers.
 
 ---
 
 ## Overall Summary
-All offensive attempts from the Kali attack machine failed.  
-This demonstrates the effectiveness of the implemented hardening measures:
 
-- SMB hardening  
-- Domain firewall configuration  
-- NTLM policies  
-- Password and lockout policies  
-- Kerberos hardening  
-- LDAP/LDAPS restrictions  
-- DNS security  
-- LLMNR/NBT-NS protections  
-- Role-based workstation restrictions  
+All offensive attempts from the Kali attack machine failed.
+
+This demonstrates the effectiveness of:
+- SMB hardening
+- Firewall configuration
+- NTLM restrictions
+- Password and lockout policies
+- Kerberos hardening
+- LDAP/LDAPS restrictions
+- DNS security
+- LLMNR/NBT-NS protections
+- Role-based restrictions
 - Network segmentation
 
-The hardened Domain Controller provides no useful information to an unauthenticated attacker, and all high-value attack paths are blocked at the network or policy level.
+The hardened Domain Controller exposes no useful information to unauthenticated attackers.

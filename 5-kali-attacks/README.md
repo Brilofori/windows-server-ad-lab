@@ -244,10 +244,19 @@ Why it matters:
 
 ---
 
-## How to Use This Evidence in Your Report
+## Overall Summary
+All offensive attempts from the Kali attack machine failed.  
+This demonstrates the effectiveness of the implemented hardening measures:
 
-- Reference the attack folders in your Blue Team or Incident Response write‑ups.  
-- For each control (firewall rules, NTLM hardening, account lockout, auditing), you can point to one or more attacks that demonstrate:  
-  - The attacker’s view from Kali (timeouts, connection refused, “no data”).  
-  - The defender’s view in Windows logs (logon failures, audit events, blocked connections).  
-- Together, these screenshots tell a full story: the environment is not just configured, it has been actively tested from an attacker’s perspective and the defensive controls held up.
+- SMB hardening  
+- Domain firewall configuration  
+- NTLM policies  
+- Password and lockout policies  
+- Kerberos hardening  
+- LDAP/LDAPS restrictions  
+- DNS security  
+- LLMNR/NBT-NS protections  
+- Role-based workstation restrictions  
+- Network segmentation
+
+The hardened Domain Controller provides no useful information to an unauthenticated attacker, and all high-value attack paths are blocked at the network or policy level.

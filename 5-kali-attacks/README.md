@@ -1,93 +1,152 @@
-README.md
+README — Kali Attacks (All Attacks Denied)
 
-This directory contains documented offensive security tests performed from the Kali attacker machine.
-All attacks were executed against the hardened Windows Server 2022 Domain Controller (192.168.56.10).
-Each attack demonstrates how proper security hardening prevents common enumeration and exploitation attempts.
+This directory contains evidence of offensive security tests performed from the Kali Linux attacker machine against the hardened Windows Server 2022 Domain Controller.
+All attacks were intentionally blocked due to the applied security hardening.
+Each folder documents one attack type, the commands used, and the denied results.
 
-Attack 1 – Enumeration (Denied)
---
-Purpose: Test anonymous and unauthenticated enumeration against SMB and LDAP.
-Outcome: All methods failed due to firewall restrictions and hardening.
+Attack 1 — Anonymous Enumeration (Denied)
 
-Artifacts:
-smbclient anonymous listing denied
-enum4linux anonymous enumeration denied
-CrackMapExec initialization
-CrackMapExec unauthenticated enumeration denied
+Tests whether SMB and LDAP allow unauthenticated enumeration.
 
-Attack 2 – Single User Authentication Attempt (Denied)
---
-Purpose: Test a login using a single user with blank or wrong passwords.
-Outcome: Authentication blocked and no information disclosed.
+Methods tested:
 
-Artifacts:
-CME null-user attempt denied
-CME wrong-password attempt denied
+smbclient -L //DC-IP/ -N
 
-Attack 3 – Username Enumeration (Denied)
---
-Purpose: Attempt username validation using lists.
-Outcome: Server returned no information that would identify valid accounts.
+enum4linux-ng -A DC-IP
 
-Artifacts:
-CME userlist null-password attempts denied
-CME userlist wrong-password attempts denied
-Username list used for testing
+crackmapexec smb DC-IP -u '' -p ''
 
-Attack 4 – Password Spray (Denied)
---
-Purpose: Test multiple common passwords against multiple accounts.
-Outcome: All spray attempts blocked by authentication throttling and NTLM restrictions.
+Result:
+All anonymous enumeration attempts failed. No shares, users, or LDAP information disclosed.
 
-Artifacts:
-Password123 spray denied
-Winter2024 spray denied
-Single-user password-spray attempt denied
+Attack 2 — Single-User Null Auth Attempt (Denied)
 
-Attack 5 – Fake Hash / Kerberos Abuse Attempts (Denied)
---
-Purpose: Attempt authentication with invalid NTLM hash and forge Kerberos tickets.
-Outcome: All attempts were blocked; server did not reveal protocol-level information.
+Tests whether a specific user can authenticate with a null password.
 
-Artifacts:
-Fake NTLM hash attempt denied
-Fake Kerberos TGT request denied
+Methods tested:
 
-Attack 6 – Kerberos Ticket Attacks (Denied)
---
-Purpose: Test SPN enumeration and Kerberoasting attempts.
-Outcome: All tools failed due to firewall filtering on Kerberos ports.
+crackmapexec smb DC-IP -u john.staff -p ''
 
-Artifacts:
-GetUserSPNs with blank credentials denied
-getTGT connection refused (Kerberos port filtered)
-Nmap UDP scan confirming filtered DNS/Kerberos/LDAP ports
-Responder block evidence
+Result:
+Null password authentication was rejected.
 
-Attack 7 – LLMNR/NBT-NS Poisoning (Denied)
---
-Purpose: Capture hashes via LLMNR spoofing.
-Outcome: Server refused all multicast/LLMNR interactions; poisoning unsuccessful.
+Attack 3 — Username Enumeration (Denied)
 
-Artifacts:
-DNS zone transfer (AXFR) attempt denied
-Responder poisoning attempt denied
+Tests whether SMB reveals valid usernames through response differences.
 
-Attack 8 – LDAP / LDAPS Enumeration (Denied)
---
-Purpose: Attempt LDAP and LDAPS reconnaissance using ldapsearch.
-Outcome: Both protocols filtered at firewall; server returned no information.
+Methods tested:
 
-Artifacts:
-LDAP enumeration denied
-LDAPS enumeration denied
+crackmapexec smb DC-IP -u userlist.txt -p ''
 
-Attack 9 – Nmap Reconnaissance (Denied)
---
-Purpose: Scan full TCP/UDP port ranges and attempt service fingerprinting.
-Outcome: All ports filtered; no banners, service versions, or fingerprints disclosed.
+crackmapexec smb DC-IP -u userlist.txt -p wrongpassword
 
-Artifacts:
-Full TCP SYN scan (all ports filtered)
-Full service/version scan (all ports filtered)
-UDP scan of key ports showing open|filtered state
+Result:
+Server responses were identical for valid and invalid names. No username enumeration possible.
+
+Attack 4 — Password Spray (Denied)
+
+Tests whether weak or seasonal passwords allow entry.
+
+Methods tested:
+
+crackmapexec smb DC-IP -u userlist.txt -p Password123
+
+crackmapexec smb DC-IP -u userlist.txt -p Winter2024
+
+crackmapexec smb DC-IP -u john.staff -p Password1!
+
+Result:
+All password spray attempts were rejected.
+
+Attack 5 — Fake Hash + Kerberos Abuse Attempts (Denied)
+
+Tests whether SMB, NTLM, or Kerberos accepts fake credential material.
+
+Methods tested:
+
+crackmapexec smb DC-IP -u john.staff -H 'fakehash'
+
+crackmapexec smb DC-IP -u john.staff -k (fake Kerberos ticket)
+
+Result:
+Both attempts failed. No hash or ticket acceptance.
+
+Attack 6 — Kerberos Ticket Attacks (Denied)
+
+Tests whether the Domain Controller accepts attempts to request service tickets or TGTs.
+
+Methods tested:
+
+GetUserSPNs.py with blank or invalid creds
+
+getTGT.py with invalid creds
+
+Connectivity tests to port 88
+
+Result:
+Kerberos did not allow ticket requests. Port 88 dropped connections at the firewall.
+
+Attack 7 — LLMNR/NBT-NS Poisoning Attempt (Denied)
+
+Tests whether the Domain Controller leaks credentials through name resolution poisoning.
+
+Methods tested:
+
+dig AXFR sec.lab @DC-IP
+
+Network poisoning attempt (Responder)
+
+Result:
+Zone transfer failed. LLMNR/NBT-NS did not respond. No credentials leaked.
+
+Attack 8 — LDAP and LDAPS Enumeration (Denied)
+
+Tests whether LDAP (389) or LDAPS (636) reveals searchable directory information.
+
+Methods tested:
+
+ldapsearch (LDAP)
+
+ldapsearch (LDAPS)
+
+Result:
+Both ports dropped the requests. LDAP did not allow any binds or queries.
+
+Attack 9 — Nmap Network Scanning (Denied)
+
+Tests server visibility through port scanning and service detection.
+
+Methods tested:
+
+Full TCP SYN scan (nmap -sS -Pn -p-)
+
+Version detection (nmap -sV)
+
+UDP scan on key ports (nmap -sU -p 53,88,389,445)
+
+Result:
+All ports returned filtered or open|filtered with no-response.
+No banners or fingerprints were revealed.
+
+Summary
+
+All offensive tests were successfully denied.
+The Domain Controller and workstation hardening prevented:
+
+SMB enumeration
+
+LDAP/LDAPS information disclosure
+
+Kerberos ticket abuse
+
+Password spraying
+
+Fake ticket or fake hash logins
+
+Name resolution poisoning
+
+Nmap fingerprinting
+
+Anonymous access of any kind
+
+The environment is fully hardened and resilient to common attacker techniques.

@@ -1,7 +1,0 @@
-john.staff
-mary.hr
-administrator
-guest
-it.support
-randomuser
-test123

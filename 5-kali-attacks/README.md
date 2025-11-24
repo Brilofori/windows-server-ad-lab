@@ -3,9 +3,9 @@ README.md
 This directory contains documented offensive security tests performed from the Kali attacker machine.
 All attacks were executed against the hardened Windows Server 2022 Domain Controller (192.168.56.10).
 Each attack demonstrates how proper security hardening prevents common enumeration and exploitation attempts.
---
-Attack 1 – Enumeration (Denied)
 
+Attack 1 – Enumeration (Denied)
+--
 Purpose: Test anonymous and unauthenticated enumeration against SMB and LDAP.
 Outcome: All methods failed due to firewall restrictions and hardening.
 

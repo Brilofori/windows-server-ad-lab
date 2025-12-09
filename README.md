@@ -12,7 +12,7 @@ I focused on:
 • Applying security hardening  
 • Running attacks to verify whether the hardening worked  
 
-This project does NOT include successful privilege escalation (the environment became too hardened), and I decided to keep the project clean rather than force a broken demo.
+This project does not include successful privilege escalation as initially planned(the environment became too hardened), and I decided to keep the project clean rather than force a broken demo.
 
 -----  
 1. Lab Setup

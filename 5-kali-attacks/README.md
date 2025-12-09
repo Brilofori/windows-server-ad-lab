@@ -16,6 +16,7 @@ Command:
 Result:
   NT_STATUS_ACCESS_DENIED or timeout; no share listing.
 Why it matters:
+
 • Anonymous SMB enumeration is blocked.
 • Guest and anonymous access restrictions + firewall prevent unauthenticated share discovery.
 
@@ -25,6 +26,7 @@ Command:
 Result:
   All SMB/LDAP probes fail; tool aborts with no data.
 Why it matters:
+
 • enum4linux cannot fetch users, groups, or shares.
 • Confirms external enumeration vectors are disabled.
 
@@ -42,6 +44,7 @@ Command:
 Result:
   No enumeration; silent failure.
 Why it matters:
+
 • Anonymous enumeration fully blocked.
 
 ------------------------------------------------------------

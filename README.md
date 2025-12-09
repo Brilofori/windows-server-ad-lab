@@ -18,12 +18,14 @@ This project does not include successful privilege escalation as initially plann
 1. Lab Setup
 
 Environment:
+
 • Windows Server 2022 – Domain Controller (sec.lab)  
 • Windows 10 – Joined to the domain  
 • Kali Linux – Attacker system  
 • Host‑only network with DHCP provided by the server
 
 Active Directory Structure:
+
 • LAB OU with sub‑OUs for Admins, Staff, Interns, and Workstations  
 • Groups created for role‑based access  
 • Password and account policies configured  
@@ -34,6 +36,7 @@ Active Directory Structure:
 This was the main part of the project. I applied:
 
 Account & Authentication Hardening:
+
 • Disabled Guest account and anonymous access  
 • Disabled LM hashing  
 • Applied stronger password rules  
@@ -41,18 +44,21 @@ Account & Authentication Hardening:
 • Restricted group memberships  
 
 Workstation & OS Hardening:
+
 • Baseline workstation GPO  
 • Intern lockdown (no PowerShell, no regedit, no task manager, restricted UI)  
 • Disabled autorun and remote assistance  
 • Removed unnecessary features  
 
 Audit & Logging:
+
 • Enabled logs for account logon/logoff  
 • Policy changes  
 • Object access  
 • Account management  
 
 Firewall Hardening:
+
 • Hardened domain/private/public profiles  
 • Disabled unused ports and services  
 • Disabled SMBv1 and legacy protocols  
@@ -75,6 +81,7 @@ I ran nine categories of attacks from Kali Linux:
 9. Nmap scanning – Attack surface significantly reduced  
 
 Each folder contains:
+
 • Commands used  
 • Screenshots  
 • What happened  
@@ -95,8 +102,6 @@ This section proves the hardening worked.
 5. Future Improvements
 
 If I expand this project later, I want to add:
-• Centralized logging (WEC/WI or SIEM)  
-• Sysmon + Sigma rules  
 • MITRE ATT&CK mapping  
 • A dedicated privilege escalation project  
 • Automation of baselines using PowerShell  

@@ -5,6 +5,7 @@ This project is a learning lab where I built a small Windows Server domain, appl
 The goal was to understand Active Directory, learn how Group Policy affects users, and practice defensive thinking by trying to break what I built.
 
 I focused on:
+
 • Setting up a domain controller and workstation  
 • Creating OUs, users, and groups  
 • Applying security hardening  

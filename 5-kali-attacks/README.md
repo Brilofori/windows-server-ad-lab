@@ -12,10 +12,11 @@ Command:
 Result:
     NT_STATUS_ACCESS_DENIED or timeout, no shares listed.
 Why it matters:
+
     • Anonymous SMB enumeration is blocked.
     • Guest and anonymous restrictions + firewall prevent attackers from seeing shares.
 
-2. 02-enum4linux_denied.PNG
+3. 02-enum4linux_denied.PNG
 Command:
     enum4linux-ng -A 192.168.56.10
 Result:
@@ -24,20 +25,22 @@ Why it matters:
     • enum4linux cannot fetch users, groups, or shares.
     • Confirms enumeration is blocked at multiple levels.
 
-3. 03-cme_initialization.PNG
+4. 03-cme_initialization.PNG
 Command:
     crackmapexec smb 192.168.56.10 -u '' -p ''
 Result:
     Only the tool initialization appears.
 Why it matters:
+
     • Shows the tool is working normally, so future denied attempts are valid.
 
-4. 04-cme_denied_no_output.PNG
+6. 04-cme_denied_no_output.PNG
 Command:
     crackmapexec smb 192.168.56.10 -u '' -p ''
 Result:
     Silent exit, nothing returned.
 Why it matters:
+
     • Anonymous enumeration is completely blocked.
 
 ------------------------------------------------------------
@@ -50,14 +53,16 @@ Command:
 Result:
     Null session denied.
 Why it matters:
+
     • Guest/anonymous logon attempts are blocked.
 
-2. 02-cme_singleuser_wrongpass_denied.PNG
+3. 02-cme_singleuser_wrongpass_denied.PNG
 Command:
     crackmapexec smb 192.168.56.10 -u john.staff -p ilovemyWIFE
 Result:
     No authentication feedback or success.
 Why it matters:
+
     • Wrong password attempts return generic errors.
     • Hardening prevents giving away username validity.
 
@@ -71,14 +76,16 @@ Command:
 Result:
     No difference between valid or invalid usernames.
 Why it matters:
+
     • Prevents attackers from identifying real accounts.
 
-2. 02-cme_userlist_wrongpass_denied.PNG
+3. 02-cme_userlist_wrongpass_denied.PNG
 Command:
     crackmapexec smb 192.168.56.10 -u userlist.txt -p WrongPassword123
 Result:
     All responses look the same.
 Why it matters:
+
     • Password sprays cannot be used to discover live accounts.
 
 userlist.txt:
@@ -99,6 +106,7 @@ Command:
 Result:
     No logons succeed.
 Why it matters:
+
     • Strong password policies and lockout rules protect accounts.
 
 3. 03-cme_singleuser_password_spray_denied.PNG
@@ -107,6 +115,7 @@ Command:
 Result:
     No success returned.
 Why it matters:
+
     • Shows even targeted sprays fail.
 
 ------------------------------------------------------------
@@ -119,14 +128,16 @@ Command:
 Result:
     No session opened.
 Why it matters:
+
     • Fake NTLM hashes cannot be used for pass-the-hash.
 
-2. 02-cme_kerberos_fake_tgt_denied.PNG
+3. 02-cme_kerberos_fake_tgt_denied.PNG
 Command:
     crackmapexec smb 192.168.56.10 -u john.staff -k
 Result:
     No Kerberos session created.
 Why it matters:
+
     • Without a valid ticket, Kerberos authentication fails immediately.
 
 ------------------------------------------------------------
@@ -139,25 +150,28 @@ Command:
 Result:
     Connection refused.
 Why it matters:
+
     • SPN enumeration blocked by firewall.
 
-2. 02-getTGT_connection_refused.PNG
+3. 02-getTGT_connection_refused.PNG
 Command:
     getTGT.py sec.lab/bril:'batman11'
 Result:
     Connection refused.
 Why it matters:
+
     • Direct Kerberos requests are blocked.
 
-3. 02_port88_connection_refused.PNG
+5. 02_port88_connection_refused.PNG
 Command:
     nc -vz 192.168.56.10 88
 Result:
     Connection refused.
 Why it matters:
+
     • Shows port 88 (Kerberos) is blocked externally.
 
-4. 03-responder_block_evidence.PNG
+7. 03-responder_block_evidence.PNG
 Context:
     KDC services running on DC while Kali shows ports blocked.
 Why it matters:
@@ -173,6 +187,7 @@ Command:
 Result:
     Zone transfer blocked.
 Why it matters:
+
     • DNS data cannot be leaked to attackers.
 
 ------------------------------------------------------------
@@ -190,6 +205,7 @@ Command:
 Result:
     No entries, timeouts.
 Why it matters:
+
     • LDAP and LDAPS enumeration from unauthorized sources is blocked.
 
 ------------------------------------------------------------
@@ -202,22 +218,25 @@ Command:
 Result:
     All ports filtered.
 Why it matters:
+
     • DC gives no service visibility.
 
-2. 02-nmap_version_detection_denied.PNG
+3. 02-nmap_version_detection_denied.PNG
 Command:
     sudo nmap -sV -Pn 192.168.56.10 --version-all --reason
 Result:
     No banners or services discovered.
 Why it matters:
+
     • Service fingerprinting completely blocked.
 
-3. 03-nmap_udp_keyports_denied.PNG
+5. 03-nmap_udp_keyports_denied.PNG
 Command:
     sudo nmap -sU -Pn 192.168.56.10 -p 53,88,389,445 --reason
 Result:
     open|filtered, no responses.
 Why it matters:
+
     • Key domain services cannot be probed by attackers.
 
 ------------------------------------------------------------

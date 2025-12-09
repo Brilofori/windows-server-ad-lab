@@ -1,7 +1,4 @@
 # Kali Attack Evidence – Denied Attempts
-
-This README explains what each screenshot in `5-kali-attacks/` shows and how it proves your Windows lab is hardened. Every attack is *supposed* to fail. The point is to show how your controls block or limit common techniques, and how that would look to an analyst.
-
 ---
 
 ## Attack 1 – SMB and LDAP Enumeration Denied

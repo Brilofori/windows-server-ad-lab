@@ -242,10 +242,15 @@ Why it matters:
 ------------------------------------------------------------
 Overall Summary
 All offensive attempts failed. This shows:
+
 • Firewall and network hardening worked.
+
 • NTLM and Kerberos protections blocked authentication abuse.
+
 • LDAP, SMB, DNS, and port-based enumeration failed.
+
 • Workstation and domain settings prevented username/password discovery.
+
 • The domain controller appears opaque to an attacker with no credentials.
 
 The hardening effectively stops an attacker from gaining any useful information or foothold.

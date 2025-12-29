@@ -8,7 +8,8 @@ The goal of this evaluation is to show which defensive measures were effective, 
 
 1. Evaluation Approach
 
-I evaluated hardening by:
+I evaluated hardening by:]
+
 • Building a Windows domain with Server 2022 and a Windows 10 workstation  
 • Applying layered security policies (GPO, NTLM, firewall, account rules)  
 • Running nine categories of attacks from a Kali Linux machine  
@@ -140,5 +141,5 @@ The environment behaved like a properly secured enterprise domain.
 Conclusion
 
 This evaluation shows that the hardening applied across authentication, Group Policy, firewall, and audit settings worked together to stop all tested attack vectors.  
-The project demonstrated not only how to configure defenses, but also how to validate them using attacker tools — giving me a clearer understanding of how Windows security works in practice.
+The project demonstrated not only how to configure defenses, but also how to validate them using attacker tools therefore giving me a clearer understanding of how Windows security works in practice.
 

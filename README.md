@@ -102,9 +102,10 @@ This section proves the hardening worked.
 5. Future Improvements
 
 If I expand this project later, I want to add:
-• MITRE ATT&CK mapping  
+• Siem log analysis 
 • A dedicated privilege escalation project  
 • Automation of baselines using PowerShell  
+
 
 -----  
 6. Repo Structure
@@ -118,4 +119,4 @@ README.md
 
 -----  
 Conclusion
-This project helped me understand how Windows domains work from both an admin and attacker perspective. Building the environment, securing it, and then testing the security gave me a full picture of how defensive layers interact. Even though no attacks succeeded, the failures were the educational part — they showed which controls were actually doing their job.
+This project helped me understand how Windows domains work from both an admin and attacker perspective. Building the environment, securing it, and then testing the security gave me a full picture of how defensive layers interact. Even though no attacks succeeded, the failures were the were educational part as they showed which controls were actually doing their job.

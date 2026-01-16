@@ -1,3 +1,7 @@
+This phase validates the security hardening applied earlier by attempting common Active Directory attack techniques from a Kali Linux attacker machine.
+
+All attacks were intentionally denied. The goal was not exploitation, but confirmation that misconfigurations and information leakage were effectively prevented.
+
 Kali Attack Evidence – Denied Attempts 
 
 This document lists each attack attempted from the Kali attacker machine and explains how the hardening on the Windows Server Active Directory environment stopped the attack. The goal is to show what was tried, what happened, and why the attack failed.

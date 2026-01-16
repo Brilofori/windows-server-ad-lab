@@ -103,7 +103,9 @@ This section proves the hardening worked.
 If I expand this project later, I want to add:
 
 • Siem log analysis 
+
 • A dedicated privilege escalation project  
+
 • Automation of baselines using PowerShell  
 
 

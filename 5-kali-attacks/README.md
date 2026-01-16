@@ -106,6 +106,7 @@ Command:
 Result:
     No logons succeed.
 Why it matters:
+
     • Strong password policies and lockout rules protect accounts.
 
 3. 03-cme_singleuser_password_spray_denied.PNG
@@ -114,6 +115,7 @@ Command:
 Result:
     No success returned.
 Why it matters:
+
     • Shows even targeted sprays fail.
 
 ------------------------------------------------------------
@@ -126,6 +128,7 @@ Command:
 Result:
     No session opened.
 Why it matters:
+
     • Fake NTLM hashes cannot be used for pass-the-hash.
 
 3. 02-cme_kerberos_fake_tgt_denied.PNG
@@ -134,6 +137,7 @@ Command:
 Result:
     No Kerberos session created.
 Why it matters:
+
     • Without a valid ticket, Kerberos authentication fails immediately.
 
 ------------------------------------------------------------
@@ -154,6 +158,7 @@ Command:
 Result:
     Connection refused.
 Why it matters:
+
     • Direct Kerberos requests are blocked.
 
 5. 02_port88_connection_refused.PNG
@@ -162,12 +167,14 @@ Command:
 Result:
     Connection refused.
 Why it matters:
+
     • Shows port 88 (Kerberos) is blocked externally.
 
 7. 03-responder_block_evidence.PNG
 Context:
     KDC services running on DC while Kali shows ports blocked.
 Why it matters:
+
     • Confirms network hardening, not server failure.
 
 ------------------------------------------------------------
@@ -180,6 +187,7 @@ Command:
 Result:
     Zone transfer blocked.
 Why it matters:
+
     • DNS data cannot be leaked to attackers.
 
 ------------------------------------------------------------
@@ -197,6 +205,7 @@ Command:
 Result:
     No entries, timeouts.
 Why it matters:
+
     • LDAP and LDAPS enumeration from unauthorized sources is blocked.
 
 ------------------------------------------------------------
@@ -209,6 +218,7 @@ Command:
 Result:
     All ports filtered.
 Why it matters:
+
     • DC gives no service visibility.
 
 3. 02-nmap_version_detection_denied.PNG
@@ -217,6 +227,7 @@ Command:
 Result:
     No banners or services discovered.
 Why it matters:
+
     • Service fingerprinting completely blocked.
 
 5. 03-nmap_udp_keyports_denied.PNG
@@ -225,6 +236,7 @@ Command:
 Result:
     open|filtered, no responses.
 Why it matters:
+
     • Key domain services cannot be probed by attackers.
 
 ------------------------------------------------------------

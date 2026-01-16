@@ -1,6 +1,5 @@
 Windows Server AD Security Lab – Hardening & Attack Simulation 
 
-Overview
 This project is a learning lab where I built a small Windows Server domain, applied security hardening, and then attempted common cyber-attacks from a Kali machine to see how well the environment held up.  
 
 The goal was to understand Active Directory, learn how Group Policy affects users, and practice defensive thinking by trying to break what I built.

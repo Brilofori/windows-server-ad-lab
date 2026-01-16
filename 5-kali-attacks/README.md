@@ -1,4 +1,4 @@
-Kali Attack Evidence – Denied Attempts (Student Style)
+Kali Attack Evidence – Denied Attempts 
 
 This document lists each attack attempted from the Kali attacker machine and explains how the hardening on the Windows Server Active Directory environment stopped the attack. The goal is to show what was tried, what happened, and why the attack failed.
 
